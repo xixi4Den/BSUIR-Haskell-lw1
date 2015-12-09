@@ -3,7 +3,7 @@ where
 
 import Options
 
-data MainOptions = MainOptions
+data ProgramOptions = ProgramOptions
     { 
         inputPath :: String,
         clusters :: Int,
@@ -19,8 +19,8 @@ data MainOptions = MainOptions
     }
 
 
-instance Options MainOptions where
-    defineOptions = pure MainOptions
+instance Options ProgramOptions where
+    defineOptions = pure ProgramOptions
         <*> simpleOption "inputPath" ""
             "A path to input file."
         <*> simpleOption "clusters" 2

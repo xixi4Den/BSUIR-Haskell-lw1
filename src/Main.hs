@@ -6,9 +6,13 @@ module Main
 where
 
 import Options
-import Args
 
+import Args
+import CsvParser
  
 main :: IO ()
-main = runCommand $ \opts args -> do
-    putStrLn (inputPath opts)
+main = runCommand $ \opts _ -> do
+    res <- parseCsv opts 
+    case res of
+        Left err -> print err
+        Right v -> print v
