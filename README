@@ -1,0 +1,40 @@
+Build:
+cabal install
+cabal run
+
+
+Application Options:
+  --inputPath :: text
+    A path to input file.
+    default: ""
+  --clusters :: int
+    A number of clusters.
+    default: 2
+  --precision :: float64
+    Precision for FCM algorithm.
+    default: 1.0
+  --demension :: int
+    A demension of the feature vector
+    default: 2
+  --separator :: text
+    A separator of the csv file
+    default: ","
+  --ignoreFirstCol :: bool
+    The csv parser should ignore the first column.
+    default: false
+  --ignoreLastCol :: bool
+    The csv parser should ignore the last column.
+    default: false
+  --ignoreFirstLine :: bool
+    The csv parser should ignore the first line.
+    default: false
+  --distance :: int
+    A distance type for FCM algorithm. 0 - Euclidean. 1 - Hamming.
+    default: 0
+  --startWithRandomVector :: bool
+    A initial action for FCM algorithm. False - random matrix initialization.
+    True - random choice of centers.
+    default: false
+  --outPath :: text
+    A path to output file. Writes to the console if is empty.
+    default: ""

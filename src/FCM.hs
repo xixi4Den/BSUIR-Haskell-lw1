@@ -32,7 +32,7 @@ generateRandom2dList g clusterCount patternCount = normalize $ splitTo2d cluster
 findNewCenters :: [[Double]] -> [[Double]] -> [[Double]]
 findNewCenters accum patterns = map (\accumCol -> findNewCenter accumCol patterns) $ transpose accum
     where findNewCenter accumCol patterns = map (\pattern -> findNewCenterI accumCol pattern) $ transpose patterns
-          findNewCenterI accumCol pattern = sum (zipWith (*) (map (^2) accumCol) pattern) / sum accumCol
+          findNewCenterI accumCol pattern = sum (zipWith (*) (map (**2) accumCol) pattern) / sum accumCol
 
 
 calculateNextAccum :: [[Double]] -> [[Double]] -> ([Double] -> [Double] -> Double) -> [[Double]]
@@ -40,7 +40,7 @@ calculateNextAccum centers patterns distanceMethod = map (\pattern -> findNewAcc
     where findNewAccumRow centers pattern = map (\center -> findNewAccumEl center pattern centers) centers
           findNewAccumEl center pattern centers =  (1/) $ sum $ map (\otherCenter -> (summand center otherCenter pattern)) $ centers
           without element list = filter (/=element) list
-          summand center otherCenter pattern = ((distanceMethod center pattern) / (distanceMethod otherCenter pattern)) ^ 2
+          summand center otherCenter pattern = ((distanceMethod center pattern) / (distanceMethod otherCenter pattern)) ** 2
 
 
 getNorma :: [[Double]] -> [[Double]] -> Double
@@ -48,8 +48,8 @@ getNorma a b = maximum $ zipWith (\ai bi -> abs (ai - bi)) (concat a) (concat b)
 
 
 euclideanDistance :: [Double] -> [Double] -> Double
-euclideanDistance a b = sqrt . sum $ zipWith (\ai bi -> (ai - bi)^2) a b
+euclideanDistance a b = sqrt $ sum $ zipWith (\ai bi -> (ai - bi)**2) a b
 
 
 hammingDistance :: [Double] -> [Double] -> Double
-hammingDistance a b = fromIntegral . length . filter (== True) $ zipWith (==) a b
+hammingDistance a b = sum $ zipWith (\ai bi -> abs (ai - bi)) a b
