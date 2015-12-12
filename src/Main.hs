@@ -6,13 +6,17 @@ module Main
 where
 
 import Options
+import System.Random
 
 import Args
 import CsvParser
+import FCM
  
 main :: IO ()
 main = runCommand $ \opts _ -> do
     res <- parseCsv opts 
+    stdGen <- getStdGen
     case res of
         Left err -> print err
-        Right v -> print v
+        Right patterns -> do
+            writeCsv opts $ classify stdGen opts patterns

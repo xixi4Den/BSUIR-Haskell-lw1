@@ -7,14 +7,14 @@ data ProgramOptions = ProgramOptions
     { 
         inputPath :: String,
         clusters :: Int,
-        precision :: Int,
+        precision :: Double,
         demension :: Int,
         separator :: String,
         ignoreFirstCol :: Bool,
         ignoreLastCol :: Bool,
         ignoreFirstLine :: Bool,
-        metric :: Int,
-        initAction :: Int,
+        distance :: Int,
+        startWithRandomVector :: Bool,
         outPath :: String
     }
 
@@ -26,7 +26,7 @@ instance Options ProgramOptions where
         <*> simpleOption "clusters" 2
             "A number of clusters."
         <*> simpleOption "precision" 1
-            "Precision for FSM algorithm."
+            "Precision for FCM algorithm."
         <*> simpleOption "demension" 2
             "A demension of the feature vector"
         <*> simpleOption "separator" ","
@@ -37,9 +37,9 @@ instance Options ProgramOptions where
             "The csv parser should ignore the last column."
         <*> simpleOption "ignoreFirstLine" False
             "The csv parser should ignore the first line."
-        <*> simpleOption "metric" 0
-            "A metric type for FSM algorithm. 0 - Euclidean. 1 - Hamming."
-        <*> simpleOption "initAction" 0
-            "A initial action for FSM algorithm. 0 - random matrix initialization. 1 - random choice of centers."
+        <*> simpleOption "distance" 0
+            "A distance type for FCM algorithm. 0 - Euclidean. 1 - Hamming."
+        <*> simpleOption "startWithRandomVector" False
+            "A initial action for FCM algorithm. False - random matrix initialization. True - random choice of centers."
         <*> simpleOption "outPath" ""
             "A path to output file. Writes to the console if is empty."

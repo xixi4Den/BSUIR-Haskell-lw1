@@ -16,6 +16,7 @@ parseCsv options = do
         Right vv -> do
             return $ Right $ map (\l -> castRowToDouble $ filterColumns (ignoreFirstCol options) (ignoreLastCol options) l) ll
             where ll = V.toList $ V.map (V.toList) vv
+                  castRowToDouble = map (\i -> read i :: Double)
         where decodeOptions = DecodeOptions {
                 decDelimiter = fromIntegral . ord . head $ separator options}
               ignoreHeader = if ignoreFirstLine options then HasHeader else NoHeader
@@ -26,5 +27,10 @@ filterColumns True False (_:xs) = xs
 filterColumns False True x =  init x             
 filterColumns False False x = x
 
-castRowToDouble :: [String] -> [Double]
-castRowToDouble s = map (\i -> read i :: Double) s
+writeCsv :: ProgramOptions -> [[Double]] -> IO()
+writeCsv options result = writeCsvInternal (outPath options) result
+
+writeCsvInternal :: String -> [[Double]] -> IO()
+writeCsvInternal target result
+    | target == ""  = print result
+    | otherwise     = BS.writeFile target (encode result)
